@@ -13,7 +13,7 @@ app.use(pino);
 
 app.post('/api/savequestionnaire', function(req, res){
     var questionnairedata = req.body;
-    fs.writeFile(questionnairedata.data.id+'.json', JSON.stringify(questionnairedata.data));
+    fs.writeFileSync(questionnairedata.data.id+'.json', JSON.stringify(questionnairedata.data));
     res.status(200).send({
       'data': 'Upload result complete'
     })
