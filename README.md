@@ -4,7 +4,7 @@ Steps:
 3. This will then automatically open the first page in browser
 4. When finish all questions, will be given an uuid. Copy this uuid.
 5. Then node js will try to save the answers and uuid into a json file.
-6. To get the json file, go to http://localhost:3001/<uuid>.json
+6. To get the json file, go to http://localhost:3001/[uuid].json
 7. Currently there is color messup when select the answers, probably a React thing. Will look into it.
 8. Still figuring out an appropriate deployment strategy for both node js and react app.
 9. Questions can be customized in /src/data/data.js
