@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/89398753-e8da-41d1-9669-636831c6513e/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/ensemble-questionnaire",
+    "appService.deploySubpath": ""
+}
