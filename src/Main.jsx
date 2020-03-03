@@ -49,15 +49,13 @@ class Main extends React.Component {
       } else {
         let ca  = this.currentAnswer[nr.toString()];
         const response = await fetch(`/api/${nr}/${ca}`);
-        const json = await response.json();        
+        const json = await response.json();   
+        this.pushData(json.data);     
         this.setState({
             showButton: false,
             questionAnswered: false,
             nr: json.data
-        });
-        if (this.state.nr <= total) {
-            this.pushData(this.state.nr);
-        }
+        });                       
       }     
   }
 
