@@ -12,6 +12,7 @@ class Main extends React.Component {
           total: data.length,
           showButton: false,
           questionAnswered: false,
+          isTurnNewPage: false,
           displayPopup: 'flex',
           uuid: this._uuid()
       }
@@ -21,16 +22,21 @@ class Main extends React.Component {
       this.saveAnswer = this.saveAnswer.bind(this);
       this.saveToAnswerList = this.saveToAnswerList.bind(this);
       this.getAnswerList = this.getAnswerList.bind(this);
+      this.toggleIsNextPage = this.toggleIsNextPage.bind(this);
       this.endQuiz = this.endQuiz.bind(this);
       this.currentAnswer = -1;
       this.answerlist = [];
   }
 
   pushData(nr) {
+      let choiceCount = data[nr-1].answers.length;
+      let answerlist = [];
+      for (var i=0; i< choiceCount; i++) {
+          answerlist.push(data[nr-1].answers[i]);
+      }
       this.setState({
           question: data[nr-1].question,
-          answers: [data[nr-1].answers[0], data[nr-1].answers[1], data[nr-1].answers[2], data[nr-1].answers[3] ],
-          correct: data[nr-1].correct,
+          answers: answerlist
       });
   }
 
@@ -49,13 +55,14 @@ class Main extends React.Component {
       } else {
         let ca  = this.currentAnswer[nr.toString()];
         const response = await fetch(`/api/${nr}/${ca}`);
-        const json = await response.json();   
-        this.pushData(json.data);     
+        const json = await response.json();    
+        this.pushData(json.data);    
         this.setState({
             showButton: false,
             questionAnswered: false,
             nr: json.data
-        });                       
+        });
+        this.toggleIsNextPage();
       }     
   }
 
@@ -90,6 +97,12 @@ class Main extends React.Component {
       });
   }
 
+  toggleIsNextPage() {
+      this.setState({
+          isTurnNewPage : !this.state.isTurnNewPage
+      })
+  }
+
   getAnswerList() {
     return this.answerlist;
   }
@@ -108,7 +121,7 @@ class Main extends React.Component {
   
 
   render() {
-      let { nr, total, question, answers, correct, showButton, questionAnswered, displayPopup, score, uuid} = this.state;
+      let { nr, total, question, answers, correct, showButton, questionAnswered, displayPopup, score, uuid, isTurnNewPage} = this.state;
 
       return (
           <div className="container">
@@ -121,7 +134,7 @@ class Main extends React.Component {
                           <h4>Question {nr}/{total}</h4>
                           <p>{question}</p>
                       </div>
-                      <Answers answers={answers} correct={correct} showButton={this.handleShowButton} isAnswered={questionAnswered} saveAnswer={this.saveAnswer}/>
+                      <Answers answers={answers} correct={correct} showButton={this.handleShowButton} isAnswered={questionAnswered} saveAnswer={this.saveAnswer} isTurnNewPage={isTurnNewPage} toggleIsNextPage={this.toggleIsNextPage}/>
                       <div id="submit">
                           {showButton ? <button className="fancy-btn" onClick={this.nextQuestion} >{nr===total ? 'Finish quiz' : 'Next question'}</button> : null}
                       </div>

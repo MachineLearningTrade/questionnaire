@@ -1,42 +1,66 @@
-import React from 'react';
+import React from 'react';    
 
 class Answers extends React.Component {
     constructor(props) {
         super(props);
+        
         this.state = {
             isAnswered: false,
-            classNames: ['', '', '', '']
+            isNewPage: true,
+            classNames: this.getCurrentClassList()
         }
         
         this.checkAnswer = this.checkAnswer.bind(this);
     }
+
+    getCurrentClassList() {
+        let currentChoiceCount = this.props.answers.length;
+        let classNameList = []
+        for (var i=0; i< currentChoiceCount; i++) {
+            classNameList.push('');
+        }
+        return classNameList;
+    }
     
     checkAnswer(e) {
-        let { isAnswered } = this.props;
+        let { isAnswered, toggleIsNextPage } = this.props;
         if(!isAnswered) {
             let elem = e.currentTarget;
             let {saveAnswer} = this.props;
             let answer = Number(elem.dataset.id);
             let updatedClassNames = this.state.classNames;
-            updatedClassNames[answer-1] = 'right';
+            updatedClassNames[answer] = 'right';
             
             this.setState({
-                classNames: updatedClassNames
-            })
-            saveAnswer(answer);
+                classNames: updatedClassNames,
+                isNewPage: false
+            });
+            saveAnswer(answer+1);
             this.props.showButton();
-
         }
     }
     
-    shouldComponentUpdate() {         
-        return true;
-    }
+    static getDerivedStateFromProps(nextProps, prevState){
+        if(nextProps.isTurnNewPage!==prevState.isNewPage){
+            return { isNewPage: nextProps.isTurnNewPage};
+        }
+        else return null;
+     }
+     
+     componentDidUpdate(prevProps, prevState) {
+        if(this.state.isNewPage!==prevState.isNewPage){
+            this.setState({
+                isNewPage: this.props.isTurnNewPage,
+                classNames: this.getCurrentClassList()
+            });
+        }
+     }
     
     render() {
         let { answers } = this.props;
         let { classNames } = this.state;
-        
+        console.log(answers);
+        console.log(classNames);
         let transition = {
             transitionName: "example",
             transitionEnterTimeout: 500,
@@ -46,10 +70,7 @@ class Answers extends React.Component {
         return (
             <div id="answers">
                 <ul>
-                    <li onClick={this.checkAnswer} className={classNames[0]} data-id="1"><span>A</span> <p>{answers[0]}</p></li>
-                    <li onClick={this.checkAnswer} className={classNames[1]} data-id="2"><span>B</span> <p>{answers[1]}</p></li>
-                    <li onClick={this.checkAnswer} className={classNames[2]} data-id="3"><span>C</span> <p>{answers[2]}</p></li>
-                    <li onClick={this.checkAnswer} className={classNames[3]} data-id="4"><span>D</span> <p>{answers[3]}</p></li>
+                {classNames.map((item, i) => <li onClick={this.checkAnswer} className={item} data-id={i}><span>{String.fromCharCode(65+i)}</span> <p>{answers[i]}</p></li>)}
                 </ul>
             </div>
         );
