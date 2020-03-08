@@ -6,6 +6,7 @@ const path = require('path');
 const cors = require('cors');
 
 const app = express();
+var answerHistories = {};
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -25,9 +26,16 @@ app.get('/:filename', (req, res) => {
     res.json(data);
 })
 
-app.get('/api/:qno/:answer', (req,res) => {
+app.get('/api/:uid/:qno/:answer', (req,res) => {
     var qno = parseInt(req.params.qno);
     var answer = parseInt(req.params.answer);
+    var uid = req.params.uid;
+    //save user answer history in session object, can be leveraged to produce next question
+    if (uid in answerHistories) {
+      answerHistories[uid].push({qno:answer});
+    } else {
+      answerHistories[uid] = [{qno:answer}];
+    }
     var nextq = -1;
     if (qno == 1) {
       switch(answer) {

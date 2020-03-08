@@ -54,7 +54,7 @@ class Main extends React.Component {
         });
       } else {
         let ca  = this.currentAnswer[nr.toString()];
-        const response = await fetch(`/api/${nr}/${ca}`);
+        const response = await fetch(`/api/${this.state.uuid}/${nr}/${ca}`);
         const json = await response.json();    
         this.pushData(json.data);    
         this.setState({
