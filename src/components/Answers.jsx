@@ -1,4 +1,5 @@
 import React from 'react';    
+import './Answers.css'
 
 class Answers extends React.Component {
     constructor(props) {
@@ -7,10 +8,12 @@ class Answers extends React.Component {
         this.state = {
             isAnswered: false,
             isNewPage: true,
-            classNames: this.getCurrentClassList()
+            classNames: this.getCurrentClassList(),
+            stocksToHold: [{"code": ""}]
         }
         
         this.checkAnswer = this.checkAnswer.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     getCurrentClassList() {
@@ -39,6 +42,39 @@ class Answers extends React.Component {
             this.props.showButton();
         }
     }
+
+    handleSubmit = evt => {
+        const { stocksToHold } = this.state;
+        let {saveAnswer} = this.props;
+        this.setState({
+            isNewPage: false
+        })
+        saveAnswer(stocksToHold);
+        this.props.showButton();
+    };
+    
+    handleAddStock = () => {
+        if (this.state.stocksToHold.length < 5) {
+            this.setState({
+                stocksToHold: this.state.stocksToHold.concat([{ "code": "" }])
+              });
+        }
+    };
+
+    handleStockChange = idx => evt => {
+        const newStocksToHold = this.state.stocksToHold.map((stock, sidx) => {
+          if (idx !== sidx) return stock;
+          return {...stock, "code":evt.target.value };
+        });
+    
+        this.setState({ stocksToHold: newStocksToHold });
+    };
+    
+    handleRemoveStock = idx => () => {
+        this.setState({
+          stocksToHold: this.state.stocksToHold.filter((s, sidx) => idx !== sidx)
+        });
+    };
     
     static getDerivedStateFromProps(nextProps, prevState){
         if(nextProps.isTurnNewPage!==prevState.isNewPage){
@@ -59,21 +95,45 @@ class Answers extends React.Component {
     render() {
         let { answers } = this.props;
         let { classNames } = this.state;
-        console.log(answers);
-        console.log(classNames);
+        let isOpenEndQ = answers.length == 0;
         let transition = {
             transitionName: "example",
             transitionEnterTimeout: 500,
             transitionLeaveTimeout: 300
         }
-        
-        return (
+        let mydiv;
+        if (isOpenEndQ) {
+            mydiv =
+            <section>
+                <div id="formA">
+                {this.state.stocksToHold.map((stock, idx) => (
+                    <div className="stocklist">
+                        <input type="text"
+                        placeholder={`Stock code #${idx + 1}`}
+                        value={stock.code}
+                        onChange={this.handleStockChange(idx)}
+                    />
+                    <button type="button"
+                    onClick={this.handleRemoveStock(idx)}
+                    className="small">-</button>
+                    </div>
+                ))}
+                </div>
+                <div id="formB">
+                    <button type="button"
+                    onClick={this.handleAddStock}>Add Stock</button>
+                    <button onClick={this.handleSubmit}>Submit</button>
+                </div>            
+            </section>;
+            } else {
+            mydiv =  
             <div id="answers">
                 <ul>
-                {classNames.map((item, i) => <li onClick={this.checkAnswer} className={item} data-id={i}><span>{String.fromCharCode(65+i)}</span> <p>{answers[i]}</p></li>)}
+                    {classNames.map((item, i) => <li onClick={this.checkAnswer} className={item} data-id={i}><span>{String.fromCharCode(65+i)}</span> <p>{answers[i]}</p></li>)}
                 </ul>
             </div>
-        );
+        }
+        return (mydiv);
     }
 }
 

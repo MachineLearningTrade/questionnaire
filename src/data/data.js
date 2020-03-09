@@ -31,5 +31,9 @@ export default [
     {
         question: 'How do you add a background color for all <h1> elements?',
         answers: ['all.h1 {background-color:#FFFFFF;}', 'h1.setAll {background-color:#FFFFFF;}', 'h1.all {background-color:#FFFFFF;}', 'h1 {background-color:#FFFFFF;}'],
+    },
+    {
+        question: "What are the five Hong Kong stocks you like to trade?",
+        answers: []
     }
 ]

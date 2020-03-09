@@ -133,8 +133,9 @@ class Main extends React.Component {
                       <div id="question">
                           <h4>Question {nr}/{total}</h4>
                           <p>{question}</p>
-                      </div>
-                      <Answers answers={answers} correct={correct} showButton={this.handleShowButton} isAnswered={questionAnswered} saveAnswer={this.saveAnswer} isTurnNewPage={isTurnNewPage} toggleIsNextPage={this.toggleIsNextPage}/>
+                      </div> 
+                      <Answers answers={answers} correct={correct} showButton={this.handleShowButton} isAnswered={questionAnswered} 
+                          saveAnswer={this.saveAnswer} isTurnNewPage={isTurnNewPage} toggleIsNextPage={this.toggleIsNextPage}/>       
                       <div id="submit">
                           {showButton ? <button className="fancy-btn" onClick={this.nextQuestion} >{nr===total ? 'Finish quiz' : 'Next question'}</button> : null}
                       </div>

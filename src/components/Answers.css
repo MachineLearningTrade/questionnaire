@@ -1,0 +1,143 @@
+section {
+  padding: 0 40px;
+}
+  
+section input {
+  display: inline-block;
+  width: 250px;
+  font-size: 20px;
+  padding: 15px 5px;
+  margin: 5px 0;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+  
+section button {
+  display: inline-block;
+  width:120px;
+  appearance: none;
+  border-radius: 5px;
+  background-color: #84c00c;
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  height: 40px;
+  margin-top: 10px;
+  margin: 20px 12px;
+}
+  
+section button:hover {
+  background-color: #669509;
+}
+  
+section button:disabled {
+  background-color: #dbf99f;
+  color: #333;
+}
+  
+section button.small {
+  display: inline-block;
+  width: 40px;
+  padding: 15px 20px;
+  background-color: #777;
+  font-size: 14px;
+  margin-top: 20px;
+}
+  
+section button.small:hover {
+  background-color: #999;
+}
+
+.stocklist {
+  display: flex;
+  direction: row;
+}
+
+.stocklist button {
+  margin: 0;
+  margin-left: 10px;
+}
+
+#answers ul{
+  list-style-type: none;
+  padding: 0;
+  margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+#answers li {
+  background-color: #fff;
+  border: 2px solid #0094da;
+  min-height: 70px;
+  width: 48%;
+  display: flex;
+  margin-bottom: 30px;
+  transition: color .3s ease, border-color .3s ease, transform .3s ease;
+  cursor: pointer;
+}
+
+#answers li span {
+  background-color: #0084da;
+  color: #fff;
+  font-size: 30px;
+  flex: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color .3s ease;
+}
+
+#answers li p {
+  color: #0b0e21;
+  font-size: 16px;
+  font-weight: 600;
+  flex: calc(100% - 75px);
+  margin: auto 20px;
+  transition: color .3s ease;
+}
+
+#answers li:after{
+  display: block;
+}
+
+#answers li:hover {
+  transform: scale(1.03);
+}
+
+#answers li.right {
+  border-color: #1ea55b;
+  color: #1ea55b;
+}
+
+#answers li.right span {
+  background-color: #1ea55b;
+}
+
+#answers li.right p {
+  color: #1ea55b;
+}
+
+#answers li.wrong {
+  border-color: #dc0a0a;
+  color: #dc0a0a;
+}
+
+#answers li.wrong span {
+  background-color: #dc0a0a;
+}
+
+#answers li.wrong p {
+  color: #dc0a0a;
+}
+
+#formA {
+  width: 25%;
+  margin: 0 auto;
+}
+
+#formB {
+  width: 25%;
+  margin: 0 auto;
+}
